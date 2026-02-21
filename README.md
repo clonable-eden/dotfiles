@@ -1,6 +1,6 @@
 # dotfiles
 
-Configuration files for macOS + Homebrew + WezTerm.
+Personal dotfiles for macOS — zsh, WezTerm, Starship, and more.
 
 ## Structure
 
