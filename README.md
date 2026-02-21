@@ -28,14 +28,14 @@ dotfiles/
 git clone <repo-url> ~/git/clonable-eden/dotfiles
 cd ~/git/clonable-eden/dotfiles
 make install   # create symlinks
-make deps      # install Homebrew formulae and zsh plugins
+make deps      # install Homebrew formulae and casks
 ```
 
 ## Uninstall
 
 ```sh
 make uninstall   # remove symlinks
-make undeps      # uninstall Homebrew formulae, casks, and zsh plugins
+make undeps      # uninstall Homebrew formulae and casks
 ```
 
 ## Dependencies
@@ -45,7 +45,8 @@ Installed automatically via `make deps`:
 Homebrew formulae:
 
 - [zsh](https://www.zsh.org/) — latest zsh
-- [zplug](https://github.com/zplug/zplug) — plugin manager
+- [zsh-completions](https://github.com/zsh-users/zsh-completions) — additional completions
+- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) — syntax highlighting
 - [zoxide](https://github.com/ajeetdsouza/zoxide) — smarter cd
 - [mise](https://mise.jdx.dev/) — runtime version manager
 - [starship](https://starship.rs/) — cross-shell prompt
@@ -54,11 +55,6 @@ Homebrew casks:
 
 - [WezTerm](https://wezfurlong.org/wezterm/) — terminal emulator
 - [Moralerspace HW](https://github.com/yuru7/moralerspace) — font
-
-zplug:
-
-- [zsh-completions](https://github.com/zsh-users/zsh-completions)
-- [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 
 Manual install required:
 

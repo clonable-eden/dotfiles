@@ -14,18 +14,17 @@ install:
 	@echo "Done!"
 
 HOMEBREW_PREFIX ?= /opt/homebrew
-BREW_FORMULAE  := zsh zplug zoxide mise starship
+BREW_FORMULAE  := zsh zsh-completions zsh-syntax-highlighting zoxide mise starship
 BREW_CASKS     := wezterm font-moralerspace-hw
 BREW_ZSH       := $(HOMEBREW_PREFIX)/bin/zsh
 
-deps: # zsh plugins (zsh-completions, zsh-syntax-highlighting) are managed by zplug in zshrc
+deps:
 	brew install $(BREW_FORMULAE)
 	brew install --cask $(BREW_CASKS)
 	@grep -qxF '$(BREW_ZSH)' /etc/shells || { echo "Adding $(BREW_ZSH) to /etc/shells (requires sudo)"; echo '$(BREW_ZSH)' | sudo tee -a /etc/shells; }
 	@if [ "$$SHELL" != "$(BREW_ZSH)" ]; then echo "Changing login shell to $(BREW_ZSH)"; chsh -s $(BREW_ZSH); fi
 
 undeps:
-	$(BREW_ZSH) -c 'source $(HOMEBREW_PREFIX)/opt/zplug/init.zsh && zplug clear'
 	@if [ "$$SHELL" = "$(BREW_ZSH)" ]; then echo "Changing login shell back to /bin/zsh"; chsh -s /bin/zsh; fi
 	@grep -qxF '$(BREW_ZSH)' /etc/shells && { echo "Removing $(BREW_ZSH) from /etc/shells (requires sudo)"; sudo sed -i '' '\|^$(BREW_ZSH)$$|d' /etc/shells; } || true
 	brew uninstall $(BREW_FORMULAE)
