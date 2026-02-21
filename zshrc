@@ -6,14 +6,11 @@
 [[ -d /Applications/WezTerm.app ]] && path=(/Applications/WezTerm.app/Contents/MacOS $path)
 
 # ============================================================
-# Plugin Manager (zplug)
+# Plugins (Homebrew)
 # ============================================================
-ZPLUG_HOME=$HOMEBREW_PREFIX/opt/zplug
-if [[ -f $ZPLUG_HOME/init.zsh ]]; then
-  source $ZPLUG_HOME/init.zsh
-  zplug 'zsh-users/zsh-completions', use:'src/_*', lazy:true
-  zplug 'zsh-users/zsh-syntax-highlighting', defer:2
-  zplug load
+if [[ -n $HOMEBREW_PREFIX ]]; then
+  fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
+  source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # ============================================================
