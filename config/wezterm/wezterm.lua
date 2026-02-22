@@ -247,6 +247,25 @@ local function project_layout()
     local cwd = cwd_uri.file_path or ''
     if cwd == '' then return end
 
+    -- If a window for this directory already exists, activate it
+    local cwd_normalized = cwd:gsub('/$', '')
+    for _, gw in ipairs(wezterm.gui.gui_windows()) do
+      if gw:window_id() ~= window:window_id() then
+        for _, tab in ipairs(gw:mux_window():tabs()) do
+          for _, p in ipairs(tab:panes()) do
+            local p_uri = p:get_current_working_dir()
+            if p_uri then
+              local p_cwd = (p_uri.file_path or ''):gsub('/$', '')
+              if p_cwd == cwd_normalized then
+                gw:focus()
+                return
+              end
+            end
+          end
+        end
+      end
+    end
+
     -- Derive project name from directory basename
     local project_name = cwd:match('([^/]+)/?$') or cwd
 
