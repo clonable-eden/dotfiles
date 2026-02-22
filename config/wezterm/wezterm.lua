@@ -296,7 +296,7 @@ local function project_layout()
 
     -- Auto-refresh git log in bottom pane
     git_pane:send_text(
-      'while true; do clear; git --no-pager log --oneline --graph --color -15; sleep 5; done\n'
+      'while true; do printf "\\033[H"; git --no-pager log --oneline --graph --color=always -15; printf "\\033[J"; sleep 5; done\n'
     )
 
     -- Focus Claude pane
