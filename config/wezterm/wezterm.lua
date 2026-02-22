@@ -286,6 +286,88 @@ local function project_layout()
 end
 
 -- ============================================================
+-- Window Manager: activate / close project windows
+-- ============================================================
+-- Ctrl+S Shift+S: list project windows (those with a title set by project_layout)
+local function window_manager()
+  return wezterm.action_callback(function(window, pane)
+    local choices = {}
+    local home = os.getenv('HOME') or ''
+    local nf = wezterm.nerdfonts
+
+    for _, gw in ipairs(wezterm.gui.gui_windows()) do
+      local title = gw:mux_window():get_title()
+      if title ~= '' then
+        local win_id = tostring(gw:window_id())
+
+        -- Gather context: cwd + git branch from the active pane
+        local info = title
+        local ap = gw:active_pane()
+        if ap then
+          local cwd_uri = ap:get_current_working_dir()
+          if cwd_uri then
+            local cwd = cwd_uri.file_path or ''
+            if home ~= '' and cwd:sub(1, #home) == home then
+              cwd = '~' .. cwd:sub(#home + 1)
+            end
+            info = nf.md_folder_outline .. ' ' .. cwd
+            local git = get_git_info(cwd_uri.file_path or '')
+            if git then
+              info = info .. '  ' .. nf.dev_git_branch .. ' ' .. git.branch
+            end
+            info = info .. '  ' .. title
+          end
+        end
+
+        table.insert(choices, {
+          id = 'activate:' .. win_id,
+          label = nf.cod_link_external .. '  ' .. info,
+        })
+        table.insert(choices, {
+          id = 'close:' .. win_id,
+          label = nf.cod_chrome_close .. '  ' .. info,
+        })
+      end
+    end
+
+    if #choices == 0 then return end
+
+    window:perform_action(
+      wezterm.action.InputSelector {
+        title = 'Project Windows',
+        choices = choices,
+        fuzzy = true,
+        action = wezterm.action_callback(function(_, _, id, _)
+          if not id then return end
+
+          local action_type, win_id_str = id:match('^(%a+):(%d+)$')
+          local target_win_id = tonumber(win_id_str)
+
+          for _, gw in ipairs(wezterm.gui.gui_windows()) do
+            if gw:window_id() == target_win_id then
+              if action_type == 'activate' then
+                gw:focus()
+              elseif action_type == 'close' then
+                local num_tabs = #gw:mux_window():tabs()
+                for _ = 1, num_tabs do
+                  local ap = gw:active_pane()
+                  if ap then
+                    gw:perform_action(
+                      wezterm.action.CloseCurrentTab { confirm = false }, ap
+                    )
+                  end
+                end
+              end
+              break
+            end
+          end
+        end),
+      }, pane
+    )
+  end)
+end
+
+-- ============================================================
 -- Key Bindings
 -- ============================================================
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
@@ -294,7 +376,7 @@ config.keys = {
   { key = 'Enter', mods = 'ALT',      action = wezterm.action.DisableDefaultAssignment },
   -- Workspace
   { key = 's', mods = 'LEADER',       action = workspace_switcher() },
-  { key = 'S', mods = 'LEADER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
+  { key = 'S', mods = 'LEADER|SHIFT', action = window_manager() },
   -- Project layout
   { key = 'p', mods = 'LEADER',       action = project_layout() },
   -- Pane split
