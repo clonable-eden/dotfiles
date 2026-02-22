@@ -163,12 +163,12 @@ wezterm.on('update-status', function(window, pane)
 
   window:set_right_status(wezterm.format(elements))
 
-  -- Left: workspace name
-  local workspace = window:active_workspace()
-  if workspace ~= 'default' then
+  -- Left: project name (from window title set by project_layout)
+  local win_title = window:mux_window():get_title()
+  if win_title ~= '' then
     window:set_left_status(wezterm.format {
       { Foreground = { Color = c.purple } },
-      { Text = '  ' .. wezterm.nerdfonts.cod_window .. ' ' .. workspace .. '  ' },
+      { Text = '  ' .. wezterm.nerdfonts.cod_window .. ' ' .. win_title .. '  ' },
     })
   else
     window:set_left_status('')
@@ -231,6 +231,61 @@ local function workspace_switcher()
 end
 
 -- ============================================================
+-- Project Layout: Claude + Terminal + git log
+-- ============================================================
+-- Ctrl+S p: open a new window with a pre-configured pane layout
+--   ┌──────────────┬──────────┐
+--   │  Claude Code │ Terminal │
+--   │   (60%)      │  (40%)   │
+--   ├──────────────┴──────────┤
+--   │  git log (25%)          │
+--   └─────────────────────────┘
+local function project_layout()
+  return wezterm.action_callback(function(window, pane)
+    local cwd_uri = pane:get_current_working_dir()
+    if not cwd_uri then return end
+    local cwd = cwd_uri.file_path or ''
+    if cwd == '' then return end
+
+    -- Derive project name from directory basename
+    local project_name = cwd:match('([^/]+)/?$') or cwd
+
+    -- Create independent OS window
+    local _, main_pane, new_window = wezterm.mux.spawn_window {
+      cwd = cwd,
+    }
+
+    -- Set window title for Cmd+` identification
+    new_window:set_title(project_name)
+
+    -- Bottom first: git log with auto-refresh (full width, 25%)
+    local git_pane = main_pane:split {
+      direction = 'Bottom',
+      size = 0.25,
+      cwd = cwd,
+    }
+
+    -- Then right: general-purpose terminal (40% of top area)
+    main_pane:split {
+      direction = 'Right',
+      size = 0.4,
+      cwd = cwd,
+    }
+
+    -- Auto-start Claude in main pane
+    main_pane:send_text('claude\n')
+
+    -- Auto-refresh git log in bottom pane
+    git_pane:send_text(
+      'while true; do clear; git --no-pager log --oneline --graph --color -15; sleep 5; done\n'
+    )
+
+    -- Focus Claude pane
+    main_pane:activate()
+  end)
+end
+
+-- ============================================================
 -- Key Bindings
 -- ============================================================
 config.leader = { key = 's', mods = 'CTRL', timeout_milliseconds = 1000 }
@@ -240,6 +295,8 @@ config.keys = {
   -- Workspace
   { key = 's', mods = 'LEADER',       action = workspace_switcher() },
   { key = 'S', mods = 'LEADER|SHIFT', action = wezterm.action.ShowLauncherArgs { flags = 'WORKSPACES' } },
+  -- Project layout
+  { key = 'p', mods = 'LEADER',       action = project_layout() },
   -- Pane split
   { key = '-', mods = 'LEADER',       action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },
   { key = '\\', mods = 'LEADER',      action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
