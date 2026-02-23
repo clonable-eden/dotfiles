@@ -86,6 +86,7 @@ end
 
 local BIN_PATHS = { '/opt/homebrew/bin', '/usr/local/bin', '/usr/bin' }
 local GIT = find_in_paths('git', BIN_PATHS)
+local WATCH = find_in_paths('watch', BIN_PATHS)
 local ZOXIDE = find_in_paths('zoxide', BIN_PATHS)
 
 -- ============================================================
@@ -287,24 +288,13 @@ local function project_layout()
     -- Set window title for Cmd+` identification
     new_window:set_title(project_name)
 
-    -- Bottom first: git log with auto-refresh (full width, 25%)
-    -- Launched directly via args to skip shell init and prevent
-    -- control character echo (^[[A/B) from scroll input.
+    -- Bottom: auto-refreshing git log (full width, 25%)
     local git_pane = main_pane:split {
       direction = 'Bottom',
       size = 0.25,
       cwd = cwd,
-      args = { '/bin/sh', '-c',
-        'stty -echo 2>/dev/null; '
-          .. 'printf "\\033[?1049h\\033[?25l"; '
-          .. 'trap \'printf "\\033[?1049l\\033[?25h"\' EXIT; '
-          .. 'while true; do h=$(($(tput lines) - 1)); '
-          .. 'printf "\\033[H"; '
-          .. 'git --no-pager log --oneline --graph --color=always -"$h" 2>/dev/null '
-          .. '| head -"$h" '
-          .. '| awk \'{printf "%s\\033[K\\n", $0}\'; '
-          .. 'printf "\\033[J"; sleep 5; done'
-      },
+      args = { WATCH, '-n', '3', '-t', '-c',
+        GIT .. ' --no-pager log --oneline --graph --color=always' },
     }
 
     -- Then right: general-purpose terminal (40% of top area)
