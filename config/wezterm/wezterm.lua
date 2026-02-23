@@ -73,10 +73,20 @@ config.adjust_window_size_when_changing_font_size = false
 config.status_update_interval = 3000
 
 -- ============================================================
--- External commands (full path: WezTerm Lua bypasses shell PATH)
+-- External commands (WezTerm Lua bypasses shell PATH)
 -- ============================================================
-local GIT = '/opt/homebrew/bin/git'
-local ZOXIDE = '/opt/homebrew/bin/zoxide'
+local function find_in_paths(name, paths)
+  for _, dir in ipairs(paths) do
+    local path = dir .. '/' .. name
+    local f = io.open(path, 'r')
+    if f then f:close() return path end
+  end
+  return name
+end
+
+local BIN_PATHS = { '/opt/homebrew/bin', '/usr/local/bin', '/usr/bin' }
+local GIT = find_in_paths('git', BIN_PATHS)
+local ZOXIDE = find_in_paths('zoxide', BIN_PATHS)
 
 -- ============================================================
 -- Helper: get git info in a single child process
