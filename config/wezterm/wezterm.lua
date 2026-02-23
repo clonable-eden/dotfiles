@@ -173,12 +173,12 @@ wezterm.on('update-status', function(window, pane)
 
   window:set_right_status(wezterm.format(elements))
 
-  -- Left: project name (from window title set by project_layout)
+  -- Left: folder icon for project windows (title kept for window_manager filtering)
   local win_title = window:mux_window():get_title()
   if win_title ~= '' then
     window:set_left_status(wezterm.format {
       { Foreground = { Color = c.purple } },
-      { Text = '  ' .. wezterm.nerdfonts.cod_window .. ' ' .. win_title .. '  ' },
+      { Text = '  ' .. wezterm.nerdfonts.md_folder_outline .. '  ' },
     })
   else
     window:set_left_status('')
