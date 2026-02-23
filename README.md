@@ -50,6 +50,7 @@ Homebrew formulae:
 - [zoxide](https://github.com/ajeetdsouza/zoxide) — smarter cd
 - [mise](https://mise.jdx.dev/) — runtime version manager
 - [starship](https://starship.rs/) — cross-shell prompt
+- [watch](https://gitlab.com/procps-ng/procps) — periodic command execution (used by WezTerm git log pane)
 
 Homebrew casks:
 
