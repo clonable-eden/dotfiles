@@ -14,7 +14,7 @@ install:
 	@echo "Done!"
 
 HOMEBREW_PREFIX ?= /opt/homebrew
-BREW_FORMULAE  := zsh zsh-completions zsh-syntax-highlighting zoxide mise starship
+BREW_FORMULAE  := zsh zsh-completions zsh-syntax-highlighting zoxide mise starship watch
 BREW_CASKS     := wezterm font-moralerspace-hw
 BREW_ZSH       := $(HOMEBREW_PREFIX)/bin/zsh
 

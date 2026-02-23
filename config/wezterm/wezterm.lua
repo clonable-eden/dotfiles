@@ -73,10 +73,21 @@ config.adjust_window_size_when_changing_font_size = false
 config.status_update_interval = 3000
 
 -- ============================================================
--- External commands (full path: WezTerm Lua bypasses shell PATH)
+-- External commands (WezTerm Lua bypasses shell PATH)
 -- ============================================================
-local GIT = '/opt/homebrew/bin/git'
-local ZOXIDE = '/opt/homebrew/bin/zoxide'
+local function find_in_paths(name, paths)
+  for _, dir in ipairs(paths) do
+    local path = dir .. '/' .. name
+    local f = io.open(path, 'r')
+    if f then f:close() return path end
+  end
+  return name
+end
+
+local BIN_PATHS = { '/opt/homebrew/bin', '/usr/local/bin', '/usr/bin' }
+local GIT = find_in_paths('git', BIN_PATHS)
+local WATCH = find_in_paths('watch', BIN_PATHS)
+local ZOXIDE = find_in_paths('zoxide', BIN_PATHS)
 
 -- ============================================================
 -- Helper: get git info in a single child process
@@ -163,12 +174,12 @@ wezterm.on('update-status', function(window, pane)
 
   window:set_right_status(wezterm.format(elements))
 
-  -- Left: project name (from window title set by project_layout)
+  -- Left: folder icon for project windows (title kept for window_manager filtering)
   local win_title = window:mux_window():get_title()
   if win_title ~= '' then
     window:set_left_status(wezterm.format {
       { Foreground = { Color = c.purple } },
-      { Text = '  ' .. wezterm.nerdfonts.cod_window .. ' ' .. win_title .. '  ' },
+      { Text = '  ' .. wezterm.nerdfonts.md_folder_outline .. '  ' },
     })
   else
     window:set_left_status('')
@@ -277,11 +288,13 @@ local function project_layout()
     -- Set window title for Cmd+` identification
     new_window:set_title(project_name)
 
-    -- Bottom first: git log with auto-refresh (full width, 25%)
+    -- Bottom: auto-refreshing git log (full width, 25%)
     local git_pane = main_pane:split {
       direction = 'Bottom',
       size = 0.25,
       cwd = cwd,
+      args = { WATCH, '-n', '3', '-t', '-c',
+        GIT .. ' --no-pager log --oneline --graph --color=always' },
     }
 
     -- Then right: general-purpose terminal (40% of top area)
@@ -293,11 +306,6 @@ local function project_layout()
 
     -- Auto-start Claude in main pane
     main_pane:send_text('claude\n')
-
-    -- Auto-refresh git log in bottom pane
-    git_pane:send_text(
-      'while true; do printf "\\033[H"; git --no-pager log --oneline --graph --color=always -15; printf "\\033[J"; sleep 5; done\n'
-    )
 
     -- Focus Claude pane
     main_pane:activate()
