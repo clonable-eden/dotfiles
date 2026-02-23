@@ -305,8 +305,9 @@ local function project_layout()
     main_pane:send_text('claude\n')
 
     -- Auto-refresh git log in bottom pane
+    -- awk appends \033[K (clear to EOL) to each line to prevent stale characters
     git_pane:send_text(
-      'while true; do printf "\\033[H"; git --no-pager log --oneline --graph --color=always -15; printf "\\033[J"; sleep 5; done\n'
+      'while true; do printf "\\033[H"; git --no-pager log --oneline --graph --color=always -15 | awk \'{printf "%s\\033[K\\n", $0}\'; printf "\\033[J"; sleep 5; done\n'
     )
 
     -- Focus Claude pane
