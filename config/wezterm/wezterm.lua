@@ -288,10 +288,23 @@ local function project_layout()
     new_window:set_title(project_name)
 
     -- Bottom first: git log with auto-refresh (full width, 25%)
+    -- Launched directly via args to skip shell init and prevent
+    -- control character echo (^[[A/B) from scroll input.
     local git_pane = main_pane:split {
       direction = 'Bottom',
       size = 0.25,
       cwd = cwd,
+      args = { '/bin/sh', '-c',
+        'stty -echo 2>/dev/null; '
+          .. 'printf "\\033[?1049h\\033[?25l"; '
+          .. 'trap \'printf "\\033[?1049l\\033[?25h"\' EXIT; '
+          .. 'while true; do h=$(($(tput lines) - 1)); '
+          .. 'printf "\\033[H"; '
+          .. 'git --no-pager log --oneline --graph --color=always -"$h" 2>/dev/null '
+          .. '| head -"$h" '
+          .. '| awk \'{printf "%s\\033[K\\n", $0}\'; '
+          .. 'printf "\\033[J"; sleep 5; done'
+      },
     }
 
     -- Then right: general-purpose terminal (40% of top area)
@@ -303,12 +316,6 @@ local function project_layout()
 
     -- Auto-start Claude in main pane
     main_pane:send_text('claude\n')
-
-    -- Auto-refresh git log in bottom pane
-    -- awk appends \033[K (clear to EOL) to each line to prevent stale characters
-    git_pane:send_text(
-      'while true; do printf "\\033[H"; git --no-pager log --oneline --graph --color=always -15 | awk \'{printf "%s\\033[K\\n", $0}\'; printf "\\033[J"; sleep 5; done\n'
-    )
 
     -- Focus Claude pane
     main_pane:activate()
