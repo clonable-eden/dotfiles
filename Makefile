@@ -26,7 +26,7 @@ deps:
 	@if [ "$$SHELL" != "$(BREW_ZSH)" ]; then echo "Changing login shell to $(BREW_ZSH)"; chsh -s $(BREW_ZSH); fi
 
 fix-compaudit:
-	compaudit | xargs chmod g-w,o-w
+	$(BREW_ZSH) -c 'autoload -Uz compaudit && compaudit | xargs chmod g-w,o-w'
 
 undeps:
 	@if [ "$$SHELL" = "$(BREW_ZSH)" ]; then echo "Changing login shell back to /bin/zsh"; chsh -s /bin/zsh; fi
