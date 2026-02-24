@@ -1,7 +1,7 @@
 DOTFILES := zshenv zprofile zshrc zlogin
 ZSHDIR   := zsh
 
-.PHONY: install uninstall deps undeps
+.PHONY: install uninstall deps undeps fix-compaudit
 
 install:
 	@for f in $(DOTFILES); do \
@@ -21,8 +21,12 @@ BREW_ZSH       := $(HOMEBREW_PREFIX)/bin/zsh
 deps:
 	brew install $(BREW_FORMULAE)
 	brew install --cask $(BREW_CASKS)
+	$(MAKE) fix-compaudit
 	@grep -qxF '$(BREW_ZSH)' /etc/shells || { echo "Adding $(BREW_ZSH) to /etc/shells (requires sudo)"; echo '$(BREW_ZSH)' | sudo tee -a /etc/shells; }
 	@if [ "$$SHELL" != "$(BREW_ZSH)" ]; then echo "Changing login shell to $(BREW_ZSH)"; chsh -s $(BREW_ZSH); fi
+
+fix-compaudit:
+	compaudit | xargs chmod g-w,o-w
 
 undeps:
 	@if [ "$$SHELL" = "$(BREW_ZSH)" ]; then echo "Changing login shell back to /bin/zsh"; chsh -s /bin/zsh; fi
