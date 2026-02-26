@@ -51,6 +51,8 @@ Homebrew formulae:
 - [mise](https://mise.jdx.dev/) — runtime version manager
 - [starship](https://starship.rs/) — cross-shell prompt
 - [watch](https://gitlab.com/procps-ng/procps) — periodic command execution (used by WezTerm git log pane)
+- [jq](https://jqlang.github.io/jq/) — JSON processor
+- [gh](https://cli.github.com/) — GitHub CLI
 
 Homebrew casks:
 
