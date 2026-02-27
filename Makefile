@@ -10,6 +10,7 @@ install:
 	ln -sfnv $(CURDIR)/$(ZSHDIR) ~/.$(ZSHDIR)
 	mkdir -p ~/.config/wezterm
 	ln -sfnv $(CURDIR)/config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
+	mkdir -p ~/.config/wezterm/plugins.d
 	ln -sfnv $(CURDIR)/config/starship.toml ~/.config/starship.toml
 	@echo "Done!"
 
