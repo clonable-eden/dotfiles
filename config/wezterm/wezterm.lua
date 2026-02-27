@@ -418,4 +418,11 @@ config.keys = {
   { key = 'z', mods = 'LEADER',       action = wezterm.action.TogglePaneZoomState },
 }
 
+-- ============================================================
+-- Plugins: load all .lua files from plugins.d/
+-- ============================================================
+for _, file in ipairs(wezterm.glob(wezterm.config_dir .. '/plugins.d/*.lua')) do
+  dofile(file)
+end
+
 return config
