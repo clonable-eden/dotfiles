@@ -53,6 +53,9 @@ Homebrew formulae:
 - [watch](https://gitlab.com/procps-ng/procps) — periodic command execution (used by WezTerm git log pane)
 - [jq](https://jqlang.github.io/jq/) — JSON processor
 - [gh](https://cli.github.com/) — GitHub CLI
+- [git](https://git-scm.com/) — distributed version control
+- [sqlite](https://www.sqlite.org/) — lightweight SQL database engine
+- [tmux](https://github.com/tmux/tmux) — terminal multiplexer
 
 Homebrew casks:
 
