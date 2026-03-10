@@ -19,6 +19,8 @@ dotfiles/
 │   ├── starship.toml   # Starship prompt config
 │   └── wezterm/
 │       └── wezterm.lua # WezTerm terminal config
+├── claude/
+│   └── CLAUDE.md       # Claude Code project settings
 └── Makefile
 ```
 
@@ -59,6 +61,7 @@ Homebrew formulae:
 
 Homebrew casks:
 
+- [Claude](https://claude.ai/) — AI assistant
 - [WezTerm](https://wezfurlong.org/wezterm/) — terminal emulator
 - [Moralerspace HW](https://github.com/yuru7/moralerspace) — font
 
