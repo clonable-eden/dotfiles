@@ -4,6 +4,9 @@
 # fpath (Docker CLI completions)
 [[ -d $HOME/.docker/completions ]] && fpath=($HOME/.docker/completions $fpath)
 
+# fpath (OrbStack completions)
+[[ -d /Applications/OrbStack.app/Contents/Resources/completions/zsh ]] && fpath=(/Applications/OrbStack.app/Contents/Resources/completions/zsh $fpath)
+
 # Initialize completion system
 autoload -Uz compinit
 compinit
