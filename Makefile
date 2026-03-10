@@ -12,6 +12,8 @@ install:
 	ln -sfnv $(CURDIR)/config/wezterm/wezterm.lua ~/.config/wezterm/wezterm.lua
 	mkdir -p ~/.config/wezterm/plugins.d
 	ln -sfnv $(CURDIR)/config/starship.toml ~/.config/starship.toml
+	mkdir -p ~/.claude
+	ln -sfnv $(CURDIR)/claude/CLAUDE.md ~/.claude/CLAUDE.md
 	@echo "Done!"
 
 HOMEBREW_PREFIX ?= /opt/homebrew
@@ -56,4 +58,5 @@ uninstall:
 	rm -fv ~/.$(ZSHDIR)
 	rm -fv ~/.config/wezterm/wezterm.lua
 	rm -fv ~/.config/starship.toml
+	rm -fv ~/.claude/CLAUDE.md
 	@echo "Done!"
