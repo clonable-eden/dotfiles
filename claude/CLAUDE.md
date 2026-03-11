@@ -10,6 +10,9 @@
 - Before entering plan mode, gather all requirements and constraints first. Finalize the plan in 1-2 iterations — do not cycle in and out of plan mode repeatedly.
 - Before making changes, verify you are in the correct repository and directory by checking `pwd` and `git remote -v`.
 
+# Git
+- All commits must include a `Co-Authored-By` trailer with the actual model name: e.g. `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>`. This applies to all commits, including those made via Bash `git commit`.
+
 # Restrictions
 - Never merge branches without explicit approval.
 - Never push to main/master directly.
