@@ -14,6 +14,7 @@ install:
 	ln -sfnv $(CURDIR)/config/starship.toml ~/.config/starship.toml
 	mkdir -p ~/.claude
 	ln -sfnv $(CURDIR)/claude/CLAUDE.md ~/.claude/CLAUDE.md
+	ln -sfnv $(CURDIR)/claude/statusline-command.sh ~/.claude/statusline-command.sh
 	@echo "Done!"
 
 HOMEBREW_PREFIX ?= /opt/homebrew
@@ -60,4 +61,5 @@ uninstall:
 	rm -fv ~/.config/wezterm/wezterm.lua
 	rm -fv ~/.config/starship.toml
 	rm -fv ~/.claude/CLAUDE.md
+	rm -fv ~/.claude/statusline-command.sh
 	@echo "Done!"
