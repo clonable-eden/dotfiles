@@ -7,9 +7,7 @@ export LANG=ja_JP.UTF-8
 # Editor
 export EDITOR=vim
 
-# PATH
-typeset -U path  # deduplicate
-path=(
-  $HOME/bin
-  $path
-)
+# PATH deduplication (actual PATH additions live in zprofile/zshrc
+# because macOS /etc/zprofile runs path_helper, which reorders entries
+# set here to the end.)
+typeset -U path

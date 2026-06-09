@@ -21,6 +21,16 @@ eval "$(mise activate zsh)"
 eval "$(zoxide init zsh)"
 
 # ============================================================
+# PATH (user bins, highest priority — placed after mise activate
+# so they override mise shims and everything else)
+# ============================================================
+path=(
+  $HOME/.local/bin
+  $HOME/bin
+  $path
+)
+
+# ============================================================
 # Load split config files (~/.zsh/*.zsh)
 # ============================================================
 ZSHHOME="${HOME}/.zsh"
