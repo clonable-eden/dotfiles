@@ -12,6 +12,7 @@
 
 # Git
 - All commits must include a `Co-Authored-By` trailer with the actual model name: e.g. `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>`. This applies to all commits, including those made via Bash `git commit`.
+- Do NOT include `Claude-Session:` lines in commit messages. Session URLs are sensitive and must not be written to git history.
 
 # Restrictions
 - Never merge branches without explicit approval.
