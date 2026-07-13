@@ -15,6 +15,8 @@ install:
 	mkdir -p ~/.claude
 	ln -sfnv $(CURDIR)/claude/CLAUDE.md ~/.claude/CLAUDE.md
 	ln -sfnv $(CURDIR)/claude/statusline-command.sh ~/.claude/statusline-command.sh
+	mkdir -p ~/.docker
+	ln -sfnv $(CURDIR)/docker/config.json ~/.docker/config.json
 	@echo "Done!"
 
 HOMEBREW_PREFIX ?= /opt/homebrew
@@ -30,7 +32,14 @@ BREW_FORMULAE  := \
 	gh \
 	git \
 	sqlite \
-	tmux
+	tmux \
+	colima \
+	docker \
+	docker-buildx \
+	docker-compose \
+	docker-credential-helper \
+	aws-vault \
+	awscli
 BREW_CASKS     := \
 	claude \
 	wezterm \
@@ -62,4 +71,5 @@ uninstall:
 	rm -fv ~/.config/starship.toml
 	rm -fv ~/.claude/CLAUDE.md
 	rm -fv ~/.claude/statusline-command.sh
+	rm -fv ~/.docker/config.json
 	@echo "Done!"
