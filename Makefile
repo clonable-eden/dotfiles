@@ -41,7 +41,6 @@ BREW_FORMULAE  := \
 	aws-vault \
 	awscli
 BREW_CASKS     := \
-	claude \
 	wezterm \
 	font-moralerspace-hw
 BREW_ZSH       := $(HOMEBREW_PREFIX)/bin/zsh
