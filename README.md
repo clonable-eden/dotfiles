@@ -21,6 +21,8 @@ dotfiles/
 │       └── wezterm.lua # WezTerm terminal config
 ├── claude/
 │   └── CLAUDE.md       # Claude Code project settings
+├── docker/
+│   └── config.json     # Docker CLI config (Colima context)
 └── Makefile
 ```
 
@@ -58,10 +60,16 @@ Homebrew formulae:
 - [git](https://git-scm.com/) — distributed version control
 - [sqlite](https://www.sqlite.org/) — lightweight SQL database engine
 - [tmux](https://github.com/tmux/tmux) — terminal multiplexer
+- [colima](https://github.com/abiosoft/colima) — container runtime on macOS
+- [docker](https://www.docker.com/) — Docker CLI
+- [docker-buildx](https://github.com/docker/buildx) — Docker Buildx CLI plugin
+- [docker-compose](https://docs.docker.com/compose/) — Docker Compose CLI plugin
+- [docker-credential-helper](https://github.com/docker/docker-credential-helpers) — Docker credential helper (osxkeychain)
+- [aws-vault](https://github.com/99designs/aws-vault) — secure AWS credential storage
+- [awscli](https://aws.amazon.com/cli/) — AWS command line interface
 
 Homebrew casks:
 
-- [Claude](https://claude.ai/) — AI assistant
 - [WezTerm](https://wezfurlong.org/wezterm/) — terminal emulator
 - [Moralerspace HW](https://github.com/yuru7/moralerspace) — font
 
