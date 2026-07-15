@@ -10,6 +10,7 @@
 # ============================================================
 if [[ -n $HOMEBREW_PREFIX ]]; then
   fpath=($HOMEBREW_PREFIX/share/zsh-completions $fpath)
+  source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 

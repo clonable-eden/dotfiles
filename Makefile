@@ -22,6 +22,7 @@ install:
 HOMEBREW_PREFIX ?= /opt/homebrew
 BREW_FORMULAE  := \
 	zsh \
+	zsh-autosuggestions \
 	zsh-completions \
 	zsh-syntax-highlighting \
 	zoxide \

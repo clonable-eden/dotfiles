@@ -49,6 +49,7 @@ Installed automatically via `make deps`:
 Homebrew formulae:
 
 - [zsh](https://www.zsh.org/) — latest zsh
+- [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) — history-based inline suggestions
 - [zsh-completions](https://github.com/zsh-users/zsh-completions) — additional completions
 - [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting) — syntax highlighting
 - [zoxide](https://github.com/ajeetdsouza/zoxide) — smarter cd
