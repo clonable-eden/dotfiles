@@ -15,6 +15,8 @@ install:
 	mkdir -p ~/.claude
 	ln -sfnv $(CURDIR)/claude/CLAUDE.md ~/.claude/CLAUDE.md
 	ln -sfnv $(CURDIR)/claude/statusline-command.sh ~/.claude/statusline-command.sh
+	mkdir -p ~/.codex
+	ln -sfnv $(CURDIR)/AGENTS.md ~/.codex/AGENTS.md
 	mkdir -p ~/.docker
 	ln -sfnv $(CURDIR)/docker/config.json ~/.docker/config.json
 	@echo "Done!"
@@ -71,5 +73,6 @@ uninstall:
 	rm -fv ~/.config/starship.toml
 	rm -fv ~/.claude/CLAUDE.md
 	rm -fv ~/.claude/statusline-command.sh
+	rm -fv ~/.codex/AGENTS.md
 	rm -fv ~/.docker/config.json
 	@echo "Done!"
