@@ -10,6 +10,10 @@
 - Before entering plan mode, gather all requirements and constraints first. Finalize the plan in 1-2 iterations — do not cycle in and out of plan mode repeatedly.
 - Before making changes, verify you are in the correct repository and directory by checking `pwd` and `git remote -v`.
 
+# Coding
+- Do not write unnecessary code comments. Rationale ("why this value / this design") belongs in issues, PR descriptions, or commit messages — not in code.
+- Write comments only for constraints or warnings that cannot be expressed in code (e.g. functional directives like `tfsec:ignore`, known pitfalls).
+
 # Git
 - All commits must include a `Co-Authored-By` trailer with the actual model name: e.g. `Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>`. This applies to all commits, including those made via Bash `git commit`.
 - Do NOT include `Claude-Session:` lines in commit messages. Session URLs are sensitive and must not be written to git history.
