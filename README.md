@@ -6,6 +6,7 @@ Personal dotfiles for macOS — zsh, WezTerm, Starship, and more.
 
 ```
 dotfiles/
+├── AGENTS.md           # Shared Codex and Claude Code instructions
 ├── zshenv              # env vars (all zsh instances)
 ├── zprofile            # login shell (Homebrew)
 ├── zshrc               # interactive shell (plugins, tools)
@@ -20,7 +21,8 @@ dotfiles/
 │   └── wezterm/
 │       └── wezterm.lua # WezTerm terminal config
 ├── claude/
-│   └── CLAUDE.md       # Claude Code project settings
+│   ├── CLAUDE.md       # Symlink to ../AGENTS.md
+│   └── statusline-command.sh
 ├── docker/
 │   └── config.json     # Docker CLI config (Colima context)
 └── Makefile
